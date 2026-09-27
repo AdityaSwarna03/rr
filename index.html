@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Rabiya 🎂</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: Georgia, serif;
+    background:
+        radial-gradient(circle at center, #33251d 0%, #120d0a 45%, #050403 100%);
+    color: white;
+}
+
+/* ---------------- INTRO SCREEN ---------------- */
+
+.intro {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background:
+        radial-gradient(circle at center, #403027 0%, #140e0b 50%, #030303 100%);
+    transition: opacity 1.5s ease, visibility 1.5s ease;
+}
+
+.intro.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.small-text {
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #d8b98a;
+    margin-bottom: 25px;
+}
+
+/* Envelope */
+
+.envelope {
+    width: 280px;
+    height: 190px;
+    position: relative;
+    cursor: pointer;
+    perspective: 1000px;
+    filter: drop-shadow(0 25px 30px rgba(0,0,0,.6));
+}
+
+.envelope-body {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #d8b27b, #8f6037);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.envelope-body::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 150%;
+    left: -50%;
+    top: 25%;
+    background: rgba(255,255,255,.12);
+    transform: rotate(30deg);
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-top: 100px solid #b27b47;
+    transform-origin: top;
+    transition: transform 1.2s cubic-bezier(.2,.8,.2,1);
+    z-index: 5;
+}
+
+.envelope.open .flap {
+    transform: rotateX(180deg);
+}
+
+.seal {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #6d1e25;
+    left: 50%;
+    top: 48%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.4);
+    transition: opacity .4s;
+}
+
+.envelope.open .seal {
+    opacity: 0;
+}
+
+.open-text {
+    margin-top: 35px;
+    font-family: Arial, sans-serif;
+    letter-spacing: 2px;
+    font-size: 14px;
+    color: #eee;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: .45;
+    }
+}
+
+/* ---------------- REVEAL ---------------- */
+
+.reveal {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(1.15);
+    transition:
+        opacity 2s ease,
+        transform 2.5s cubic-bezier(.2,.7,.2,1);
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.background {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.75),
+            rgba(0,0,0,.15),
+            rgba(0,0,0,.7)
+        ),
+        url("birthday.jpg") center / cover no-repeat;
+    filter: blur(2px);
+    transform: scale(1.08);
+}
+
+.image-frame {
+    position: relative;
+    width: min(88vw, 700px);
+    height: min(86vh, 850px);
+    border: 1px solid rgba(255,255,255,.35);
+    box-shadow:
+        0 0 80px rgba(255,190,100,.25),
+        0 30px 100px rgba(0,0,0,.8);
+    overflow: hidden;
+    z-index: 2;
+    animation: frameIn 2s ease forwards;
+}
+
+@keyframes frameIn {
+    from {
+        clip-path: inset(50% 50% 50% 50%);
+    }
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+.image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Dark overlay */
+
+.image-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.7),
+            transparent 45%,
+            rgba(0,0,0,.2)
+        );
+}
+
+/* ---------------- TEXT ---------------- */
+
+.birthday-text {
+    position: absolute;
+    z-index: 5;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 90%;
+}
+
+.happy {
+    font-family: cursive;
+    font-size: clamp(42px, 8vw, 80px);
+    font-style: italic;
+    color: white;
+    text-shadow: 0 5px 30px rgba(0,0,0,.7);
+}
+
+.name {
+    margin-top: 5px;
+    font-family: Georgia, serif;
+    font-size: clamp(30px, 5vw, 55px);
+    letter-spacing: 10px;
+    color: #f2d09a;
+    text-shadow: 0 3px 20px rgba(0,0,0,.9);
+}
+
+/* ---------------- MESSAGE ---------------- */
+
+.message {
+    position: absolute;
+    z-index: 5;
+    bottom: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    text-align: center;
+    font-size: clamp(14px, 2vw, 20px);
+    line-height: 1.7;
+    color: #fff;
+    text-shadow: 0 2px 15px #000;
+}
+
+.message span {
+    display: block;
+    margin-top: 10px;
+    color: #e6c48e;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* ---------------- SPARKLES ---------------- */
+
+.sparkles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 30;
+}
+
+.sparkle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 12px 4px white;
+    animation: sparkle 2s infinite ease-in-out;
+}
+
+@keyframes sparkle {
+    0%,100% {
+        opacity: 0;
+        transform: scale(.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+}
+
+/* ---------------- MOBILE ---------------- */
+
+@media(max-width:600px) {
+
+    .envelope {
+        width: 240px;
+        height: 160px;
+    }
+
+    .flap {
+        border-left-width: 120px;
+        border-right-width: 120px;
+        border-top-width: 85px;
+    }
+
+    .image-frame {
+        width: 92vw;
+        height: 85vh;
+    }
+
+    .birthday-text {
+        top: 5%;
+    }
+
+    .message {
+        bottom: 4%;
+        font-size: 14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+
+<section class="intro" id="intro">
+
+    <div class="small-text">
+        A little surprise for you
+    </div>
+
+    <div class="envelope" id="envelope">
+
+        <div class="envelope-body"></div>
+
+        <div class="flap"></div>
+
+        <div class="seal">
+            ♥
+        </div>
+
+    </div>
+
+    <div class="open-text">
+        CLICK TO OPEN YOUR SURPRISE
+    </div>
+
+</section>
+
+
+<!-- REVEAL -->
+
+<section class="reveal" id="reveal">
+
+    <div class="background"></div>
+
+    <div class="image-frame">
+
+        <img src="birthday.jpg" alt="Birthday Surprise">
+
+        <div class="birthday-text">
+
+            <div class="happy">
+                Happy Birthday
+            </div>
+
+            <div class="name">
+                RABIYA
+            </div>
+
+        </div>
+
+        <div class="message">
+
+            May your day be filled with magic, wonder,
+            happiness and beautiful memories.
+
+            <span>
+                More adventures • More happiness • More dreams
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SPARKLES -->
+
+<div class="sparkles" id="sparkles"></div>
+
+
+<script>
+
+const envelope = document.getElementById("envelope");
+const intro = document.getElementById("intro");
+const reveal = document.getElementById("reveal");
+const sparkles = document.getElementById("sparkles");
+
+envelope.addEventListener("click", () => {
+
+    // Open envelope
+    envelope.classList.add("open");
+
+    // Create magical sparkles
+    createSparkles();
+
+    // Small pause before reveal
+    setTimeout(() => {
+
+        intro.classList.add("hide");
+        reveal.classList.add("show");
+
+    }, 900);
+
+});
+
+
+function createSparkles() {
+
+    for(let i = 0; i < 80; i++) {
+
+        const sparkle = document.createElement("div");
+
+        sparkle.className = "sparkle";
+
+        sparkle.style.left = Math.random() * 100 + "%";
+        sparkle.style.top = Math.random() * 100 + "%";
+
+        sparkle.style.animationDelay =
+            Math.random() * 2 + "s";
+
+        sparkle.style.animationDuration =
+            (1 + Math.random() * 2) + "s";
+
+        sparkles.appendChild(sparkle);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
